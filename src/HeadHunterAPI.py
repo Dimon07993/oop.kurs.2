@@ -6,7 +6,7 @@ class HeadHunterAPI(APIConnector):
     def __init__(self):
         pass
 
-    def get_vacancies(self, keyword, page=None, salary=None):
+    def get_vacancies(self, keyword=None, page=None, salary=None):
         """Подключение к API HeadHunter и получение списка вакансий по ключевому слову"""
         url = 'https://api.hh.ru/vacancies'
         headers = {

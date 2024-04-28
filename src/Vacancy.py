@@ -43,6 +43,25 @@ class Vacancy:
         data = json.loads(data)
         return cls(data['name'], data['url'], data['salary'])
 
+    @staticmethod
+    def get_vacancies_by_salary(vacancies_list, salary_range):
+        """Фильтрация вакансий по зарплате"""
+        salary_from, salary_to = salary_range.split('-')
+        ranged_vacancies = []
+        for i in vacancies_list:
+            if i.salary.get('from') is not None and int(i.salary.get('from')) >= int(salary_from):
+                if i.salary.get('to') is not None and int(i.salary.get('to')) <= int(salary_to):
+                    ranged_vacancies.append(i)
+                elif i.salary.get('to') is None:
+                    ranged_vacancies.append(i)
+
+        return ranged_vacancies
+
+    @staticmethod
+    def get_top_vacancies(ranged_vacancies, top_n):
+        """Получение топ N вакансий"""
+        return sorted(ranged_vacancies, key=lambda x: x.salary['from'], reverse=True)[:top_n]
+
     def __eq__(self, other):
         """Сравнение вакансий"""
         return self.salary == other.salary
@@ -70,5 +89,3 @@ class Vacancy:
         if self.salary["to"] < other.salary["to"]:
             return False
         return False
-
-
